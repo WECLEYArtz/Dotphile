@@ -4,10 +4,11 @@ return {
   dependencies = 'nvim-tree/nvim-web-devicons',
   config = function()
       local theme = {
-          fill = 'TabLineFill',
-          -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+          -- fill = 'TabLineFill',
+          -- Also you can do this:
+          fill = { fg='#f2e9de', bg='#020202'},
           head = 'TabLine',
-          current_tab = 'TabLineSel',
+          current_tab = { fg='#020202', bg='#00dfff'},
           tab = 'TabLine',
           win = 'TabLine',
           tail = 'TabLine',
@@ -25,11 +26,11 @@ return {
               },
               nerdfont = true,              -- whether use nerdfont
               lualine_theme = nil,          -- lualine theme name
-              tab_name = {
-                  name_fallback = function(tabid)
-                      return tabid
-                  end,
-              },
+              -- tab_name = {
+              --     name_fallback = function(tabid)
+              --         return tab.name() 
+              --     end,
+              -- },
               buf_name = {
                   mode = "'unique'|'relative'|'tail'|'shorten'",
               },

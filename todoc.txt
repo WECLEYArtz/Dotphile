@@ -1,0 +1,31 @@
+DOCS 
+ version 0.9 of a script to move and symlink anything in the home directory
+
+ check for or create the reinstaller X
+ prepare the dotphile path X
+
+ should get a path as argument X
+ extract name of the file X
+ save the path where the symlink should be >> installer.sh  X
+
+ ==== installer.sh =============================
+
+  ln -s current_file/dir_path old_file/dir_path
+  ln -sf current_file/dir_path old_file/dir_path
+  ...
+  ln -s current_file/dir_path old_file/dir_path
+  ln -sf current_file/dir_path old_file/dir_path
+
+ ===============================================
+
+ ( used in (re)installation)
+
+            N   E   X   T
+ make a copy of the file or mv it to the defauls dotphile location
+   method : tail last line and get path for undo function
+
+ scarpped (check env var for dotfile path, incase of quick reinstall)
+
+ verify the path line in installer incase
+
+ put the symlink where the path was (instalation) X
