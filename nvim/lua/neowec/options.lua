@@ -12,7 +12,6 @@ vo.splitbelow = true
 vo.splitright = true
 vo.inccommand = "split" -- better sub editing feedback
 
-vo.expandtab = true
 vo.tabstop = 4
 vo.shiftwidth = 4
 

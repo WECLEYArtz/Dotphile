@@ -5,3 +5,5 @@ alias conxbox='sudo xboxdrv --silent'
 
 alias syncDCIM='/usr/local/bin/syncDCIM.sh'
 alias nv='nvim'
+
+alias doting='bash doting.sh'

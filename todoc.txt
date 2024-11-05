@@ -6,23 +6,34 @@ DOCS
 
  should get a path as argument X
  extract name of the file X
- save the path where the symlink should be >> installer.sh  X
+ save the path where the symlink should be >> installer.sh	X
 
- ==== installer.sh =============================
+==== installer.sh =============================
+	
+    ln -s current_file/dir_path old_file/dir_path
+    ln -sf current_file/dir_path old_file/dir_path
+	...
+	ln -s current_file/dir_path old_file/dir_path
+	ln -sf current_file/dir_path old_file/dir_path
 
-  ln -s current_file/dir_path old_file/dir_path
-  ln -sf current_file/dir_path old_file/dir_path
-  ...
-  ln -s current_file/dir_path old_file/dir_path
-  ln -sf current_file/dir_path old_file/dir_path
+==== logs =====================================
 
- ===============================================
+[ FILE_NAME 1 ]
+current=	'DOTFILE_PATH/TOSYM_NAME 1'
+previous=	'TOSYM_PATH 1'
 
- ( used in (re)installation)
+[ FILE_NAME 2 ]
+current=	'DOTFILE_PATH/TOSYM_NAME 2'
+previous=	'TOSYM_PATH 2'
 
-            N   E   X   T
+awk -v FS='\t' 'NR==2 {print $2}'
+awk -v FS='\t' 'NR==3 {print $2}'
+=============================================
+( used in (re)installation)
+
+			N	E	X	T
  make a copy of the file or mv it to the defauls dotphile location
-   method : tail last line and get path for undo function
+	method : tail last line and get path for undo function
 
  scarpped (check env var for dotfile path, incase of quick reinstall)
 
