@@ -2,7 +2,6 @@
 
 if [ -z "$1" ];then
     echo "Missing argument: bash doting.sh [path to file/dir]"
-	#creat archive if not existing, better exist
     exit
 fi
 
@@ -15,8 +14,6 @@ TOSYM_NAME=$(basename $1)
 SYM_OPT='-s' 	#linking option -s -sf
 SYM_TAR=
 SYM_LOC=
-
-
 
 # INITIALISING FUNCTIONS
 
@@ -151,21 +148,7 @@ doting
 erex
 update
 erex
-# ==== logs =====================================
-
-# [ FILE_NAME 1 ]
-# current=	'DOTFILE_PATH/TOSYM_NAME 1'
-# previous=	'TOSYM_PATH 1'
-
-# [ FILE_NAME 2 ]
-# current=	'DOTFILE_PATH/TOSYM_NAME 2'
-# previous=	'TOSYM_PATH 2'
-
-# awk -v FS='\t' 'NR==2 {print $2}'
-# awk -v FS='\t' 'NR==3 {print $2}'
-# =============================================
 
 # SYM_OPT='$SYM_OPT'
 # SYM_CMD="ln $SYM_OPT $DOTFILE_PATH/$TOSYM_NAME $TOSYM_PATH"
 # sed -i "10i $SYM_CMD" $LINKER #thanks stackoverflow, but i still dont fully understand ;-;
-
