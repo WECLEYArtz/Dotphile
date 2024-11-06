@@ -1,3 +1,0 @@
-#this file is automatically created, and saves paths for each file
-#used to undo a linking or redo it
-
