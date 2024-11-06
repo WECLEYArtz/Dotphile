@@ -16,7 +16,9 @@ current and previous paths in order
 `un` : undo any doting and retuns the file where it used to be acording to
 archive.txt
 
+
 note: archive.txt get created if the script hasnt found it in the dotfile directory
+
 
 
 if you get this error :
