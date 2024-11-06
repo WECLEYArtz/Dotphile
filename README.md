@@ -6,6 +6,7 @@ Dotphilism
 `bash doting.sh {option} {path_file/dir}`
 
 **options :**
+
 `re` , reinstalls the symlink incase of removal
 must have the file in dotfile folder, and archive.txt containing
 current and previous paths in order
