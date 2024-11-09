@@ -2,7 +2,7 @@
 # set -e
 
 if [ -z "$1" ] || [ -z "$2" ] ;then
-	echo "Missing argument: bash doting.sh [path to file/dir]"
+	echo "Missing argument: bash doting.sh {option} {path_to_file/dir or file_name}"
 	exit 0
 fi
 
@@ -169,7 +169,7 @@ case $1 in
 	'ad')doting $2
 		exit
 		;;
-	*)	echo "Unavailible argument."
+	*)	echo "Unavailible argument, ('ad' \ 're' \ 'un')."
 		exit
 		;;
 esac
