@@ -6,6 +6,7 @@ Dotphilism
 `bash doting.sh {option} {path_file/dir}`
 
 **options :**
+`ad` , add a file from the sysem by passing it's path
 
 `re` , reinstalls the symlink incase of removal
 must have the file in dotfile folder, and archive.txt containing
