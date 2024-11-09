@@ -6,6 +6,7 @@ Dotphilism
 `bash doting.sh {option} {path_file/dir}`
 
 **options :**
+
 `ad` , add a file from the sysem by passing it's path
 
 `re` , reinstalls the symlink incase of removal
@@ -21,10 +22,8 @@ archive.txt
 note: archive.txt get created if the script hasnt found it in the dotfile directory
 
 
-
 if you get this error :
 `ln: failed to create symbolic link '/path/to/dir/': No such file or directory`
-edit installer.sh and remove '/' at the end of any path.
+edit archive.txt and remove '/' at the end of any path.
 example : /path/to/dir/ -> /path/to/dir
-and run 'installer.sh f'.
 
