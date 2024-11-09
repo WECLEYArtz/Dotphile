@@ -6,6 +6,7 @@ if [ -z "$1" ] || [ -z "$2" ] ;then
 	exit 0
 fi
 
+DOTFILE_PATH=$(pwd)	#path to dotfile folder
 LINKER="archive.txt"
 SYM_OPT='-s' 	#linking option -s -sf
 
@@ -61,10 +62,19 @@ ask(){
 }
 
 isexist(){
-	if [ ! -f "$1" ];then
+	if  [ -f "$2" ];then
+		echo "REJECTED!"
+		echo "File is already in Dotfile directory or is symlink for it,"
+		echo "make sure $LINKER is updated."
+		exit 5
+	elif [ ! -f "$1" ];then
 		echo "No file found."
 		exit 2
 	fi
+	# if [ ! -f "$2$1" ];then
+	# 	echo "No file found."
+	# 	exit 2
+	# fi
 }
 
 creatin(){
@@ -77,10 +87,11 @@ creatin(){
 
 doting()
 {
-	isexist
-	DOTFILE_PATH=$(pwd)	#path to dotfile folder
-	TOSYM_PATH=$1	#the argument that is the target file to be doted
 	TOSYM_NAME=$(basename $1) #file name extraction
+	TOSYM_PATH=$1	#the argument that is the target file to be doted
+
+	isexist $1 $DOTFILE_PATH/$TOSYM_NAME
+	echo "$1 $DOTFILE_PATH"
 
 	printf "DOTFILE PATH: set to current location : $DOTFILE_PATH \n\n"
 
