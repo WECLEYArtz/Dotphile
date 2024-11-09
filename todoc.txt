@@ -1,12 +1,5 @@
 DOCS 
- version 0.92 of a script to move and symlink anything in the home directory
-
- check for or create the reinstaller X
- prepare the dotphile path X
-
- should get a path as argument X
- extract name of the file X
- save the path where the symlink should be >> installer.sh	X
+ version 0.95 of a script to move and symlink anything in the home directory
 
 ==== logs =====================================
 
@@ -19,17 +12,12 @@ current=	'DOTFILE_PATH/TOSYM_NAME 2'
 previous=	'TOSYM_PATH 2'
 
 =============================================
+named as archive.txt, heck its sef explanatory, aint typing allat.
 
 TODO:
 
-( used in (re)installation)
+- scarpped (check env var for dotfile path, incase of quick reinstall)
 
- make a copy of the file or mv it to the defauls dotphile location X
+- verify the path line in archive incase
 
- scarpped (check env var for dotfile path, incase of quick reinstall)
-
- verify the path line in installer incase
-
- put the symlink where the path was (instalation) X
-  
-multiple files operating *-*
+- multiple files operating *-*
