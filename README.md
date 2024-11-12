@@ -7,15 +7,15 @@ Dotphilism
 
 **options :**
 
-`ad` , add a file from the sysem by passing it's path
+`add` , add a file from the sysem by passing it's path
 
-`re` , reinstalls the symlink incase of removal
+`redo` , reinstalls the symlink incase of removal
 must have the file in dotfile folder, and archive.txt containing
 current and previous paths in order
 
 *todo : take from name rather than line order*
 
-`un` : undo any doting and retuns the file where it used to be acording to
+`undo` : undo any doting and retuns the file where it used to be acording to
 archive.txt
 
 
