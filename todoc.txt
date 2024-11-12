@@ -7,19 +7,24 @@ DOCS
                                 
  version 0.98 of a script to move and symlink anything in the home directory
 
-==== logs =====================================
+==== archive.txt ============================
 
-[ FILE_NAME 1 ]
-current=	'DOTFILE_PATH/TOSYM_NAME 1'
-previous=	'TOSYM_PATH 1'
+	[ FILE_NAME ]
+	target=	'DOTFILE_PATH/TOSYM_NAME'
+	smlink=	'TOSYM_PATH'
 
-[ FILE_NAME 2 ]
-current=	'DOTFILE_PATH/TOSYM_NAME 2'
-previous=	'TOSYM_PATH 2'
+	NEXT:
+	[ FILE_NAME ]
+	target=	'DOTFILE_PATH/TOSYM_NAME'
+	smlink_1=	'TOSYM_PATH_1'
+	smlink_2=	'TOSYM_PATH_2'
+	smlink_3=	'TOSYM_PATH_3'
+	smlink_4=	'TOSYM_PATH_4'
+	smlink_5=	'TOSYM_PATH_5'
 
 =============================================
 
-named as archive.txt, heck its sef explanatory, aint typing allat.
+heck its sef explanatory, aint typing allat.
 
 TODO:
 
@@ -31,6 +36,8 @@ TODO:
 
 - verify the path line in archive incase
 
+- list files from archive
+
 - multiple files operating *-*
-	ability to link in multiple directories,
+	ability to link to multiple directories,
 	give a file archive multiple paths?
