@@ -7,7 +7,7 @@ if [ -z "$1" ] || [ -z "$2" ] ;then
 fi
 
 DOTFILE_PATH=$(pwd)	#path to dotfile folder
-LINKER="archive.txt"
+CONFG="archive.txt"
 SYM_OPT='-s' 	#linking option -s -sf
 
 # ===[ INITIALISING FUNCTIONS ]=== #
@@ -15,15 +15,15 @@ SYM_OPT='-s' 	#linking option -s -sf
 erex(){ #check and exit if error, avoid pouring fuel on the fire
 	# echo "nn hh $1" >> /dev/tty
 	if [[ $1 -ne 0 ]]; then
-		echo "error." >> /dev/tty
+		echo "✖ error." >> /dev/tty
 		exit $1
 	else
-		echo "Done."  >> /dev/tty
+		echo "✓ Done."  >> /dev/tty
 
 	fi
 }
 
-sym(){
+symlinking(){
 	# echo "ln $SYM_OPT $SYM_TAR $SYM_LOC" >> /dev/tty
 	ln $SYM_OPT $SYM_TAR $SYM_LOC #linking command
 	erex
@@ -31,17 +31,17 @@ sym(){
 
 update()
 {
-	echo "	updating $LINKER" 
+	echo "... updating $CONFG" 
 
-	printf "\n[ $TOSYM_NAME ]\n" >> $LINKER
-	printf "current=	$DOTFILE_PATH/$TOSYM_NAME\n" >> $LINKER
-	printf "previous=	$TOSYM_PATH" >> $LINKER
+	printf "\n[ $TOSYM_NAME ]\n" >> $CONFG
+	printf "TRGET=	$DOTFILE_PATH/$TOSYM_NAME\n" >> $CONFG
+	printf "SMLNK=	$TOSYM_PATH" >> $CONFG
 }
 
 unarchive(){
-	LINE_A=$(awk "/ $1 / {printf NR}" $LINKER)
+	LINE_A=$(awk "/ $1 / {printf NR}" $CONFG)
 	LINE_B=$((LINE_A + 3))
-	sed -i "$LINE_A , $LINE_B d" $LINKER
+	sed -i "$LINE_A , $LINE_B d" $CONFG
 
 	erex
 }
@@ -58,17 +58,16 @@ ask(){
 			echo $INP
 			ask;;
 	esac
-
 }
 
 isexist(){
-	if  [ -f "$2" ];then
+	if  [ -f "$2" ] || [ -d "$2" ];then
 		echo "REJECTED!"
 		echo "File is already in Dotfile directory or is symlink for it,"
-		echo "make sure $LINKER is updated."
+		echo "make sure $CONFG is updated."
 		exit 5
-	elif [ ! -f "$1" ];then
-		echo "No file found."
+	elif [ ! -f "$1" ] && [ ! -d "$1" ];then
+		echo "No '$1' file found."
 		exit 2
 	fi
 	# if [ ! -f "$2$1" ];then
@@ -79,8 +78,8 @@ isexist(){
 
 creatin(){
 	echo "creatig installer"
-	touch $LINKER  
-	printf "\n#this file is automatically created, and saves paths for each file\n#used to undo a linking or redo it\n\n" >> $LINKER
+	touch $CONFG  
+	printf "\n#this file is automatically created, and saves paths for each file\n#used to undo a linking or redo it\n\n" >> $CONFG
 
 	erex
 }
@@ -91,20 +90,22 @@ doting()
 	TOSYM_PATH=$1	#the argument that is the target file to be doted
 
 	isexist $1 $DOTFILE_PATH/$TOSYM_NAME
-	echo "$1 $DOTFILE_PATH"
+	printf " ____      _   _____ _   _ _     \n"
+	printf "|    \ ___| |_|  _  | |_|_| |___ \n"
+	printf "|  |  | . |  _|   __|   | | | -_|\n"
+	printf "|____/|___|_| |__|  |_|_|_|_|___|\n\n"
 
-	printf "DOTFILE PATH: set to current location : $DOTFILE_PATH \n\n"
+	printf "DOTFILE PATH: set to currind location : $DOTFILE_PATH \n\n"
 
-	echo "	moving		'$TOSYM_NAME'	to	$DOTFILE_PATH/$TOSYM_NAME"
-	mv $TOSYM_PATH $DOTFILE_PATH
+	printf "... moving		'$TOSYM_NAME'	to	$DOTFILE_PATH/$TOSYM_NAME \n"
+	mv $TOSYM_PATH $DOTFILE_PATH 
 
-	echo "	symlinking	'$TOSYM_NAME'	to	$TOSYM_PATH"
-
+	printf "... symlinking	'$TOSYM_NAME'	to	$TOSYM_PATH \n"
 	#INITIALISING SYMLINKING COMMAND ARGUMENT
 	SYM_TAR="$DOTFILE_PATH/$TOSYM_NAME"
 	SYM_LOC=$TOSYM_PATH
 	#CALLING COMMAND
-	sym
+	symlinking
 	update
 
 	erex
@@ -116,29 +117,29 @@ resymlink()
 	set -e #i dont wanna set erex for every rm and mv
 
 	isexist $1
-	echo "reinstalling symlink for $1"
+	echo "... reinstalling symlink for $1"
 
-	CURRENT=$(getpath-archive $1 2)
-	PREVIOUS=$(getpath-archive $1 3)
+	TRGET=$(getpath-archive $1 2)
+	SMLNK=$(getpath-archive $1 3)
 
 	#INITIALISING SYMLINKING COMMAND ARGUMENT
-	SYM_TAR=$CURRENT
-	SYM_LOC=$PREVIOUS
+	SYM_TAR=$TRGET
+	SYM_LOC=$SMLNK
 	SYM_OPT='-sf'
 	#CALLING COMMAND
-	sym || exit $?
+	symlinking || exit $?
 	}
 
 getpath-archive()
 {
 	# set -e
-	grep -A2 " $1 " $LINKER >> /dev/null #test command incase of errors, for set -e
+	grep -A2 " $1 " $CONFG >> /dev/null #test command incase of errors, for set -e
 	# echo "nn hh $?" >> /dev/tty
 	erex $? || exit $?
 
-	#second arg: (1 file name, 2 current, 3 previous)
+	#second arg: (1 file name, 2 TRGET, 3 SMLNK)
 	PATHH=$(\
-		grep -A2 " $1 " $LINKER |\
+		grep -A2 " $1 " $CONFG |\
 		awk -v FS='\t' "NR==$2 {print \$2}"
 	)
 	echo "$PATHH"	
@@ -151,13 +152,13 @@ undo()
 
 	isexist $1
 
-	echo "undoting $1 from dotfile"
+	echo "... undoting $1 from dotfile"
 
-	PREVIOUS=$(getpath-archive "$1" 3)
-	CURRENT=$(getpath-archive "$1" 2)
+	SMLNK=$(getpath-archive "$1" 3)
+	TRGET=$(getpath-archive "$1" 2)
 
-	rm "$PREVIOUS"
-	mv "$CURRENT" "$PREVIOUS"
+	rm "$SMLNK"
+	mv "$TRGET" "$SMLNK"
 
 	unarchive $1 || exit $?
 }
@@ -165,7 +166,7 @@ undo()
 
 # ===[ APPLICATION  ]=== #
 
-if [ ! -f $LINKER ]; then #CREAT ARCHIVE
+if [ ! -f $CONFG ]; then #CREAT ARCHIVE
 	echo "no installer found. "
 	ask
 fi
@@ -184,5 +185,3 @@ case $1 in
 		exit
 		;;
 esac
-
-
