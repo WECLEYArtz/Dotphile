@@ -1,9 +1,21 @@
 # Dotphile
 Dotphilism
 
+A script specifically made to make it easy for a fresh system reconfiguration
+ the dotfile method
+
+ - store path where dotfiles used to be at.
+ - re-deploy the symlik for each file.
+ - return a stored file where it used to be.
+ - secure usage to prevent accidental datalose during the process.
+
 [ USAGE ]
 =
 `bash doting.sh {option} {path_file/dir}`
+example :
+`bash doting.sh add ~/.config`
+`bash doting.sh redo config`
+`bash doting.sh undo config`
 
 **options :**
 
