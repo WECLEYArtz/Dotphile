@@ -5,7 +5,7 @@ DOCS
 |  |  | . |  _|   __|   | | | -_|
 |____/|___|_| |__|  |_|_|_|_|___|
                                 
- version 0.98 of a script to move and symlink anything in the home directory
+ version 0.99 of a script to move and symlink anything in the home directory
 
 ==== archive.txt ============================
 
@@ -41,3 +41,7 @@ TODO:
 - multiple files operating *-*
 	ability to link to multiple directories,
 	give a file archive multiple paths?
+	 
+- clean archive from unexisting files
+
+-history of returned/undone files
