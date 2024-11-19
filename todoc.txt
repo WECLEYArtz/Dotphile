@@ -7,6 +7,62 @@ DOCS
                                 
  version 0.99 of a script to move and symlink anything in the home directory
 
+==== steps ============================
+
+the script takes file or directory path (incase of adding) 
+or file/directory name (incase of redo and undo)
+after an action parameter (-a -r -u).
+
+Adding a file / directory :
+
+	must take path
+
+	if a path is given, it checks the existence of the file/directory, (error  if
+	it exists in the current directory), then the target gets moved to dotfile
+	and symlinked to the old location where it was moved from.
+
+	if ./name is given to add, it has to exit,
+	broken link at the end of the line.
+	it will verifies that by checking the current directory (has to be the dotfile one),
+	once the file is found, it exit returning 5, adding should only be done
+	from outside the dotfile directory.
+
+	once the move and symlink are done, archive.txt gets updated with the current
+	and old location of the doted file.
+
+	no overwrite protection is needed here, once file is moved the name is no longer taken
+	to be used by symlink.
+
+
+Redoing a file / directory :
+
+	must take existing ./name
+
+	if ./name is given, and exists, it greps the current and old locations
+	saved in archive.txt and refeed them to the symlink function.
+
+	protects overwrite
+
+	if ./name exists, and archive.txt isnt well synced, bad grep returnd
+	with exit with 1.
+
+	if ./name doesnt exists, exiting with 2
+
+Undoing a file / directory :
+
+	must take existing ./name
+
+	if ./name is given, and exists, it greps the current and old locations
+	saved in archive.txt, safely remoce the link or anything in it location
+	and move the file back where it used to be.
+
+	if ./name exists, and archive.txt isnt well synced, bad grep returnd
+	with exit with 1.
+
+	if ./name doesnt exists, exiting with 2
+
+	protects overwrite
+
 ==== archive.txt ============================
 
 	[ FILE_NAME ]
