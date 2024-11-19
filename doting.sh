@@ -1,11 +1,11 @@
 #!/bin/bash
 # set -e
 if [ "$1" == "-v" ]; then
-	echo "version 0.98, by din dimakley"
+	echo "version 0.99, by din dimakley"
 	exit 0
 elif [ -z "$1" ] || [ -z "$2" ] ;then
 	echo "Missing argument: bash doting.sh {option} {path_to_file/dir or file_name}"
-	exit 0
+	exit 1
 fi
 
 DOTFILE_PATH=$(pwd)		#path to dotfile folder
@@ -81,9 +81,8 @@ getpath-archive()
 }
 
 isexist(){
-	if  [ -e "$2" ];then
-		printf "REJECTED!\n"
-		printf "File is already in Dotfile directory or is symlink for it,\n"
+	if  [ -e "$2" ];then #only for doting()
+		printf "✖ REJECTED : File is already in Dotfile directory or is symlink for it,\n"
 		printf "make sure $CONFG is updated.\n"
 		exit 5
 	elif [ ! -e "$1" ];then
@@ -160,11 +159,10 @@ safe-rm()
 doting()
 {
 	TOSYM_NAME=$(basename $1)		#file name extraction
-	TOSYM_PATH=$(readlink -f $1)	#get and convert to absolute path if ../ used.
-
+	TOSYM_PATH=$1
 	isexist $1 $DOTFILE_PATH/$TOSYM_NAME
 
-	printf "DOTFILE PATH: set to currind location : $DOTFILE_PATH \n\n"
+	# printf "DOTFILE PATH: $DOTFILE_PATH \n\n"
 
 	printf "... moving		'$TOSYM_NAME'	to	$DOTFILE_PATH/$TOSYM_NAME \n"
 	mv $TOSYM_PATH $DOTFILE_PATH 
@@ -218,30 +216,44 @@ undo()
 }
 # -----------------[ APPLICATION  ]-----------------
 
-if [ ! -f $CONFG ]; then 		#Creat archive
-	echo "no archiving file found. "
-	ask
-fi
 
 case $1 in
 	'-r' | 're' | 'redo')
-				print-header
-				resymlink $2
-						exit
+
+		# print-header
+		if [ ! -f $CONFG ]; then 		#Creat archive
+			echo "no archiving file found, must have added files. "
+			exit 1
+		fi
+		resymlink $(basename $2)	#get and convert to name if path used.
+		exit 
 		;;
+
 	'-u' | 'un' | 'undo')
-				print-header
-				undo $2
-						exit
+
+		# print-header
+		if [ ! -f $CONFG ]; then 		#Creat archive
+			echo "no archiving file found, must have added files. "
+			exit 1
+		fi
+		undo $(basename $2)
+		exit
 		;;
+
 	'-a' | 'ad' | 'add')
-				print-header
-				doting $2
-						exit
+
+		if [ ! -f $CONFG ]; then 		#Creat archive
+			echo "no archiving file found. "
+			ask
+		fi
+		# print-header
+		doting $(readlink -f $2)	#get and convert to absolute path if ../ used.
+		exit
 		;;
+
 	*)	echo "Unavailible argument, use : ('add' \ 'redo' \ 'undo')."
 		echo "                       or : ( 'ad' \  're'  \  'un' )."
 		echo "                       or : ( '-a' \  '-r'  \  '-u' )."
-		exit
+		exit 1
 		;;
 esac
