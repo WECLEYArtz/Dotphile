@@ -1,31 +1,103 @@
 DOCS 
- version 0.9 of a script to move and symlink anything in the home directory
+                                 
+ ____      _   _____ _   _ _     
+|    \ ___| |_|  _  | |_|_| |___ 
+|  |  | . |  _|   __|   | | | -_|
+|____/|___|_| |__|  |_|_|_|_|___|
+                                
+ version 0.99 of a script to move and symlink anything in the home directory
 
- check for or create the reinstaller X
- prepare the dotphile path X
+==== steps ============================
 
- should get a path as argument X
- extract name of the file X
- save the path where the symlink should be >> installer.sh  X
+the script takes file or directory path (incase of adding) 
+or file/directory name (incase of redo and undo)
+after an action parameter (-a -r -u).
 
- ==== installer.sh =============================
+Adding a file / directory :
 
-  ln -s current_file/dir_path old_file/dir_path
-  ln -sf current_file/dir_path old_file/dir_path
-  ...
-  ln -s current_file/dir_path old_file/dir_path
-  ln -sf current_file/dir_path old_file/dir_path
+	must take path
 
- ===============================================
+	if a path is given, it checks the existence of the file/directory, (error  if
+	it exists in the current directory), then the target gets moved to dotfile
+	and symlinked to the old location where it was moved from.
 
- ( used in (re)installation)
+	if ./name is given to add, it has to exit,
+	broken link at the end of the line.
+	it will verifies that by checking the current directory (has to be the dotfile one),
+	once the file is found, it exit returning 5, adding should only be done
+	from outside the dotfile directory.
 
-            N   E   X   T
- make a copy of the file or mv it to the defauls dotphile location
-   method : tail last line and get path for undo function
+	once the move and symlink are done, archive.txt gets updated with the current
+	and old location of the doted file.
 
- scarpped (check env var for dotfile path, incase of quick reinstall)
+	no overwrite protection is needed here, once file is moved the name is no longer taken
+	to be used by symlink.
 
- verify the path line in installer incase
 
- put the symlink where the path was (instalation) X
+Redoing a file / directory :
+
+	must take existing ./name
+
+	if ./name is given, and exists, it greps the current and old locations
+	saved in archive.txt and refeed them to the symlink function.
+
+	protects overwrite
+
+	if ./name exists, and archive.txt isnt well synced, bad grep returnd
+	with exit with 1.
+
+	if ./name doesnt exists, exiting with 2
+
+Undoing a file / directory :
+
+	must take existing ./name
+
+	if ./name is given, and exists, it greps the current and old locations
+	saved in archive.txt, safely remoce the link or anything in it location
+	and move the file back where it used to be.
+
+	if ./name exists, and archive.txt isnt well synced, bad grep returnd
+	with exit with 1.
+
+	if ./name doesnt exists, exiting with 2
+
+	protects overwrite
+
+==== archive.txt ============================
+
+	[ FILE_NAME ]
+	target=	'DOTFILE_PATH/TOSYM_NAME'
+	smlink=	'TOSYM_PATH'
+
+	NEXT:
+	[ FILE_NAME ]
+	target=	'DOTFILE_PATH/TOSYM_NAME'
+	smlink_1=	'TOSYM_PATH_1'
+	smlink_2=	'TOSYM_PATH_2'
+	smlink_3=	'TOSYM_PATH_3'
+	smlink_4=	'TOSYM_PATH_4'
+	smlink_5=	'TOSYM_PATH_5'
+
+=============================================
+
+heck its sef explanatory, aint typing allat.
+
+TODO:
+
+- fix error handling and messages
+
+- ability to resymlink to passed argunment, prioritized, then archive.
+
+- scarpped (check env var for dotfile path, incase of quick reinstall)
+
+- verify the path line in archive incase
+
+- list files from archive
+
+- multiple files operating *-*
+	ability to link to multiple directories,
+	give a file archive multiple paths?
+	 
+- clean archive from unexisting files
+
+-history of returned/undone files
