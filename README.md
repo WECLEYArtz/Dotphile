@@ -38,4 +38,3 @@ if you get this error :
 `ln: failed to create symbolic link '/path/to/dir/': No such file or directory`
 edit archive.txt and remove '/' at the end of any path.
 example : /path/to/dir/ -> /path/to/dir
-
